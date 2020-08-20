@@ -170,11 +170,11 @@ if __name__ == '__main__':  # for mp_compile
         extras_require={'docs': docs_require},
         cmdclass={'build_ext': BuildExt},
         zip_safe=False,
-        python_requires='>=3.5, <3.9',
+        python_requires='>=3.5',
         setup_requires=[
             'setuptools_scm',
             'setuptools_scm_git_archive',
-            "pybind11 >= 2.4.3, < 2.6.0 ; python_version < '3.9'",
+            "pybind11 >= 2.4.3",
         ],
         use_scm_version=True,
         tests_require=tests_require,
