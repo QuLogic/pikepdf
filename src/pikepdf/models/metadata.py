@@ -15,10 +15,11 @@ from io import BytesIO
 from warnings import warn
 
 from lxml import etree
-from lxml.etree import QName, XMLParser, XMLSyntaxError, parse
+from lxml.etree import QName, XMLSyntaxError
 
 from .. import Name, Stream, String
 from .. import __version__ as pikepdf_version
+from .. import _xml
 
 XMP_NS_DC = "http://purl.org/dc/elements/1.1/"
 XMP_NS_PDF = "http://ns.adobe.com/pdf/1.3/"
@@ -350,14 +351,13 @@ class PdfMetadata(MutableMapping):
             data = XMP_EMPTY  # on some platforms lxml chokes on empty documents
 
         def basic_parser(xml):
-            return parse(BytesIO(xml))
+            return _xml.parse_xml(BytesIO(xml))
 
         def strip_illegal_bytes_parser(xml):
-            return parse(BytesIO(re_xml_illegal_bytes.sub(b'', xml)))
+            return _xml.parse_xml(BytesIO(re_xml_illegal_bytes.sub(b'', xml)))
 
         def recovery_parser(xml):
-            parser = XMLParser(recover=True)
-            return parse(BytesIO(xml), parser)
+            return _xml.parse_xml(BytesIO(xml), recover=True)
 
         def replace_with_empty_xmp(_xml=None):
             log.warning("Error occurred parsing XMP, replacing with empty XMP.")
